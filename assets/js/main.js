@@ -1,131 +1,73 @@
-/**
-* Template Name: DevFolio - v2.0.0
-* Template URL: https://bootstrapmade.com/devfolio-bootstrap-portfolio-html-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-(function($) {
-  "use strict";
+$(window).on('load', function() {
 
-  var nav = $('nav');
-  var navHeight = nav.outerHeight();
-
-  $('.navbar-toggler').on('click', function() {
-    if (!$('#mainNav').hasClass('navbar-reduce')) {
-      $('#mainNav').addClass('navbar-reduce');
-    }
-  })
-
-  // Preloader
-  $(window).on('load', function() {
-    if ($('#preloader').length) {
-      $('#preloader').delay(100).fadeOut('slow', function() {
-        $(this).remove();
-      });
-    }
-  });
-
-  // Back to top button
-  $(window).scroll(function() {
-    if ($(this).scrollTop() > 100) {
-      $('.back-to-top').fadeIn('slow');
-    } else {
-      $('.back-to-top').fadeOut('slow');
-    }
-  });
-  $('.back-to-top').click(function() {
-    $('html, body').animate({
-      scrollTop: 0
-    }, 1500, 'easeInOutExpo');
-    return false;
-  });
-
-  /*--/ Star ScrollTop /--*/
-  $('.scrolltop-mf').on("click", function() {
-    $('html, body').animate({
-      scrollTop: 0
-    }, 1000);
-  });
-
-  /*--/ Star Counter /--*/
-  $('.counter').counterUp({
-    delay: 15,
-    time: 2000
-  });
-
-  /*--/ Star Scrolling nav /--*/
-  $('a.js-scroll[href*="#"]:not([href="#"])').on("click", function() {
-    if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
-      var target = $(this.hash);
-      target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-      if (target.length) {
-        $('html, body').animate({
-          scrollTop: (target.offset().top - navHeight + 5)
-        }, 1000, "easeInOutExpo");
-        return false;
-      }
-    }
-  });
-
-  // Closes responsive menu when a scroll trigger link is clicked
-  $('.js-scroll').on("click", function() {
-    $('.navbar-collapse').collapse('hide');
-  });
-
-  // Activate scrollspy to add active class to navbar items on scroll
-  $('body').scrollspy({
-    target: '#mainNav',
-    offset: navHeight
-  });
-  /*--/ End Scrolling nav /--*/
-
-  /*--/ Navbar Menu Reduce /--*/
-  $(window).trigger('scroll');
-  $(window).on('scroll', function() {
-    var pixels = 50;
-    var top = 1200;
-    if ($(window).scrollTop() > pixels) {
-      $('.navbar-expand-md').addClass('navbar-reduce');
-      $('.navbar-expand-md').removeClass('navbar-trans');
-    } else {
-      $('.navbar-expand-md').addClass('navbar-trans');
-      $('.navbar-expand-md').removeClass('navbar-reduce');
-    }
-    if ($(window).scrollTop() > top) {
-      $('.scrolltop-mf').fadeIn(1000, "easeInOutExpo");
-    } else {
-      $('.scrolltop-mf').fadeOut(1000, "easeInOutExpo");
-    }
-  });
-
-  /*--/ Star Typed /--*/
-  if ($('.text-slider').length == 1) {
-    var typed_strings = $('.text-slider-items').text();
-    var typed = new Typed('.text-slider', {
-      strings: typed_strings.split(','),
-      typeSpeed: 80,
-      loop: true,
-      backDelay: 1100,
-      backSpeed: 30
+    $('.level-bar-inner').each(function() {
+    
+        var itemWidth = $(this).data('level');
+        
+        $(this).animate({
+            width: itemWidth
+        }, 800);
+        
     });
-  }
 
-  /*--/ Testimonials owl /--*/
-  $('#testimonial-mf').owlCarousel({
-    margin: 20,
-    autoplay: true,
-    autoplayTimeout: 4000,
-    autoplayHoverPause: true,
-    responsive: {
-      0: {
-        items: 1,
-      }
-    }
-  });
+});
 
-  // Initiate venobox (lightbox feature used in portofilo)
-  $(document).ready(function() {
-    $('.venobox').venobox();
-  });
 
-})(jQuery);
+jQuery(document).ready(function($) {
+
+
+    /*======= Skillset *=======*/
+    
+    $('.level-bar-inner').css('width', '0');
+    
+    
+    
+    /* Bootstrap Tooltip for Skillset */
+    $('.level-label').tooltip();
+    
+    
+    /* jQuery RSS - https://github.com/sdepold/jquery-rss */
+    
+    $("#rss-feeds").rss(
+    
+        //Change this to your own rss feeds
+        "https://feeds.feedburner.com/TechCrunch/startups",
+        
+        {
+        // how many entries do you want?
+        // default: 4
+        // valid values: any integer
+        limit: 3,
+        
+        // the effect, which is used to let the entries appear
+        // default: 'show'
+        // valid values: 'show', 'slide', 'slideFast', 'slideSynced', 'slideFastSynced'
+        effect: 'slideFastSynced',
+        
+        // will request the API via https
+	    // default: false
+	    // valid values: false, true
+	    ssl: true,
+        
+        // outer template for the html transformation
+        // default: "<ul>{entries}</ul>"
+        // valid values: any string
+        layoutTemplate: "<div class='items'>{entries}</div>",
+        
+        // inner template for each entry
+        // default: '<li><a href="{url}">[{author}@{date}] {title}</a><br/>{shortBodyPlain}</li>'
+        // valid values: any string
+        entryTemplate: '<div class="item"><h3 class="title"><a href="{url}" target="_blank">{title}</a></h3><div><p>{shortBodyPlain}</p><a class="more-link" href="{url}" target="_blank"><i class="fas fa-external-link-alt"></i>Read more</a></div></div>'
+        
+        }
+    );
+    
+    /* Github Calendar - https://github.com/IonicaBizau/github-calendar */
+    new GitHubCalendar("#github-graph", "IonicaBizau");
+    
+    
+    /* Github Activity Feed - https://github.com/caseyscarborough/github-activity */
+    GitHubActivity.feed({ username: "mdo", selector: "#ghfeed" });
+
+
+});
